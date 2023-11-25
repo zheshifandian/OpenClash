@@ -578,6 +578,10 @@ sub_info_get()
    else
       udp=""
    fi
+
+   if [ -n "$sub_ua" ]; then
+      sub_ua="'User-Agent: "$sub_ua"'"
+   fi
    
    if [ "$rule_provider" == "true" ]; then
       rule_provider="&expand=false&classic=true"
