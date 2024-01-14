@@ -284,6 +284,5 @@ o.write = function()
   HTTP.redirect(DISP.build_url("admin", "services", "openclash"))
 end
 
-m:append(Template("openclash/toolbar_show"))
 
 return m
