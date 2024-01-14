@@ -39,13 +39,13 @@
    LOG_OUT "Start Downloading The Chnroute Cidr List..."
    if [ -z "$CHNR_CUSTOM_URL" ]; then
       if pidof clash >/dev/null; then
-         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://ispip.clang.cn/all_cn.txt -o /tmp/china_ip_route.txt 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/china_ip_route.txt" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://ispip.clang.cn/all_cn.txt -o /tmp/china_ip_route.txt 2>&1 
       fi
       if [ "${PIPESTATUS[0]}" != "0" ] || ! pidof clash >/dev/null; then
-         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://ispip.clang.cn/all_cn_cidr.txt -o /tmp/china_ip_route.txt 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/china_ip_route.txt" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://ispip.clang.cn/all_cn_cidr.txt -o /tmp/china_ip_route.txt 2>&1 
       fi
    else
-      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$CHNR_CUSTOM_URL" -o /tmp/china_ip_route.txt 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/china_ip_route.txt" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$CHNR_CUSTOM_URL" -o /tmp/china_ip_route.txt 2>&1 
    fi
 
    if [ "${PIPESTATUS[0]}" -eq 0 ] && [ -s "/tmp/china_ip_route.txt" ]; then
@@ -79,9 +79,9 @@
    #ipv6
    LOG_OUT "Start Downloading The Chnroute6 Cidr List..."
    if [ -z "$CHNR6_CUSTOM_URL" ]; then
-      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://ispip.clang.cn/all_cn_ipv6.txt -o /tmp/china_ip6_route.txt 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/china_ip6_route.txt" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://ispip.clang.cn/all_cn_ipv6.txt -o /tmp/china_ip6_route.txt 2>&1 
    else
-      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$CHNR6_CUSTOM_URL" -o /tmp/china_ip6_route.txt 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/china_ip6_route.txt" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$CHNR6_CUSTOM_URL" -o /tmp/china_ip6_route.txt 2>&1 
    fi
    if [ "${PIPESTATUS[0]}" -eq "0" ] && [ -s "/tmp/china_ip6_route.txt" ]; then
       LOG_OUT "Chnroute6 Cidr List Download Success, Check Updated..."
