@@ -968,6 +968,5 @@ o.write = function()
    luci.http.redirect(m.redirect)
 end
 
-m:append(Template("openclash/toolbar_show"))
 m:append(Template("openclash/config_editor"))
 return m
