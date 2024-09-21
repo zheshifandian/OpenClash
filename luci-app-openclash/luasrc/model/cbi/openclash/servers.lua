@@ -54,7 +54,7 @@ s = m:section(TypedSection, "groups", translate("Proxy Groups(No Need Set when C
 s.anonymous = true
 s.addremove = true
 s.sortable = true
-s.template = "openclash/tblsection"
+s.template = "cbi/tblsection"
 s.extedit = luci.dispatcher.build_url("admin/services/openclash/groups-config/%s")
 function s.create(...)
 	local sid = TypedSection.create(...)
@@ -92,7 +92,7 @@ s = m:section(TypedSection, "proxy-provider", translate("Proxy-Provider"))
 s.anonymous = true
 s.addremove = true
 s.sortable = true
-s.template = "openclash/tblsection"
+s.template = "cbi/tblsection"
 s.extedit = luci.dispatcher.build_url("admin/services/openclash/proxy-provider-config/%s")
 function s.create(...)
 	local sid = TypedSection.create(...)
@@ -136,7 +136,7 @@ s = m:section(TypedSection, "servers", translate("Proxies"))
 s.anonymous = true
 s.addremove = true
 s.sortable = true
-s.template = "openclash/tblsection"
+s.template = "cbi/tblsection"
 s.extedit = luci.dispatcher.build_url("admin/services/openclash/servers-config/%s")
 function s.create(...)
 	local sid = TypedSection.create(...)
