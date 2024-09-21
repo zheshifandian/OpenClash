@@ -30,15 +30,15 @@
    if [ -z "$GEOIP_CUSTOM_URL" ]; then
       if [ "$github_address_mod" != "0" ]; then
          if [ "$github_address_mod" == "https://cdn.jsdelivr.net/" ] || [ "$github_address_mod" == "https://fastly.jsdelivr.net/" ] || [ "$github_address_mod" == "https://testingcf.jsdelivr.net/" ]; then
-            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "${github_address_mod}gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat" -o /tmp/GeoIP.dat 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/GeoIP.dat" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "${github_address_mod}gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat" -o /tmp/GeoIP.dat 2>&1 
          else
-            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$github_address_mod"https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/GeoIP.dat" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$github_address_mod"https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat -o /tmp/GeoIP.dat 2>&1 
          fi
       else
-         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat" -o /tmp/GeoIP.dat 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/GeoIP.dat" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat" -o /tmp/GeoIP.dat 2>&1 
       fi
    else
-      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$GEOIP_CUSTOM_URL" -o /tmp/GeoIP.dat 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/GeoIP.dat" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+      curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$GEOIP_CUSTOM_URL" -o /tmp/GeoIP.dat 2>&1 
    fi
    if [ "${PIPESTATUS[0]}" -eq "0" ] && [ -s "/tmp/GeoIP.dat" ]; then
       LOG_OUT "GeoIP Dat Download Success, Check Updated..."

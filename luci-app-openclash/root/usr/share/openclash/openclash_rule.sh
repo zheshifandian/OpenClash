@@ -36,12 +36,12 @@
    if [ "$rule_name" = "lhie1" ]; then
       if [ "$github_address_mod" != "0" ]; then
          if [ "$github_address_mod" == "https://cdn.jsdelivr.net/" ] || [ "$github_address_mod" == "https://fastly.jsdelivr.net/" ] || [ "$github_address_mod" == "https://testingcf.jsdelivr.net/" ]; then
-            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$github_address_mod"gh/dler-io/Rules@master/Clash/Rule.yaml -o /tmp/rules.yaml 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/rules.yaml" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$github_address_mod"gh/dler-io/Rules@master/Clash/Rule.yaml -o /tmp/rules.yaml 2>&1 
          else
-            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$github_address_mod"https://raw.githubusercontent.com/dler-io/Rules/master/Clash/Rule.yaml -o /tmp/rules.yaml 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/rules.yaml" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+            curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 "$github_address_mod"https://raw.githubusercontent.com/dler-io/Rules/master/Clash/Rule.yaml -o /tmp/rules.yaml 2>&1 
          fi
       else
-         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://raw.githubusercontent.com/dler-io/Rules/master/Clash/Rule.yaml -o /tmp/rules.yaml 2>&1 |sed ':a;N;$!ba; s/\n/ /g' | awk -v time="$(date "+%Y-%m-%d %H:%M:%S")" -v file="/tmp/rules.yaml" '{print time "【" file "】Download Failed:【"$0"】"}' >> "$LOG_FILE"
+         curl -SsL --connect-timeout 30 -m 60 --speed-time 30 --speed-limit 1 --retry 2 https://raw.githubusercontent.com/dler-io/Rules/master/Clash/Rule.yaml -o /tmp/rules.yaml 2>&1 
       fi
       sed -i '1i rules:' /tmp/rules.yaml
    fi
