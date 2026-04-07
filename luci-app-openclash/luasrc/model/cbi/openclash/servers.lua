@@ -27,8 +27,8 @@ gs = m:section(TypedSection, "groups", translate("Proxy Groups"))
 gs.anonymous = true
 gs.addremove = true
 gs.sortable = true
-gs.template = "openclash/tblsection"
-gs.extedit = DISP.build_url("admin/services/openclash/groups-config/%s").."?file="..file_path
+gs.template = "cbi/tblsection"
+gs.extedit = DISP.build_url("admin/services/openclash/groups-config/%s"..file_path)
 function gs.create(self, section)
 	local sid = TypedSection.create(self, section)
 	if sid then
@@ -69,8 +69,8 @@ ps = m:section(TypedSection, "proxy-provider", translate("Proxy-Provider"))
 ps.anonymous = true
 ps.addremove = true
 ps.sortable = true
-ps.template = "openclash/tblsection"
-ps.extedit = DISP.build_url("admin/services/openclash/proxy-provider-config/%s").."?file="..file_path
+ps.template = "cbi/tblsection"
+ps.extedit = DISP.build_url("admin/services/openclash/proxy-provider-config/%s"..file_path)
 function ps.create(self, section)
 	local sid = TypedSection.create(self, section)
 	if sid then
@@ -110,8 +110,8 @@ ss = m:section(TypedSection, "servers", translate("Proxies"))
 ss.anonymous = true
 ss.addremove = true
 ss.sortable = true
-ss.template = "openclash/tblsection"
-ss.extedit = DISP.build_url("admin/services/openclash/servers-config/%s").."?file="..file_path
+ss.template = "cbi/tblsection"
+ss.extedit = DISP.build_url("admin/services/openclash/servers-config/%s"..file_path)
 function ss.create(self, section)
 	local sid = TypedSection.create(self, section)
 	if sid then
@@ -250,6 +250,6 @@ o.write = function()
 	HTTP.redirect(DISP.build_url("admin", "services", "openclash", "config"))
 end
 
-m:append(Template("openclash/toolbar_show"))
+-- m:append(Template("openclash/toolbar_show"))
 
 return m

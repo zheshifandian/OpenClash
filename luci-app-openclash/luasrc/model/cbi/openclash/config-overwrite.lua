@@ -496,7 +496,7 @@ ds = m:section(TypedSection, "dns_servers", translate("Add Custom DNS Servers").
 ds.anonymous = true
 ds.addremove = true
 ds.sortable = true
-ds.template = "openclash/tblsection"
+ds.template = "cbi/tblsection"
 ds.extedit = DISP.build_url("admin/services/openclash/custom-dns-edit/%s")
 function ds.create(self, section)
 	local sid = TypedSection.create(self, section)
@@ -608,6 +608,6 @@ o.write = function()
 end
 
 m:append(Template("openclash/config_editor"))
-m:append(Template("openclash/toolbar_show"))
+-- m:append(Template("openclash/toolbar_show"))
 
 return m

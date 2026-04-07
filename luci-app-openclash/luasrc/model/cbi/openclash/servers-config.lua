@@ -1306,6 +1306,6 @@ o.write = function()
 	HTTP.redirect(m.redirect)
 end
 
-m:append(Template("openclash/toolbar_show"))
+-- m:append(Template("openclash/toolbar_show"))
 m:append(Template("openclash/config_editor"))
 return m

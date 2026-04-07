@@ -150,7 +150,7 @@ ruby-pstore: $(ts_re "$(ipk_v "ruby-pstore")")
 kmod-tun(TUN模式): $(ts_re "$(ipk_v "kmod-tun")")
 luci-compat(Luci >= 19.07): $(ts_re "$(ipk_v "luci-compat")")
 kmod-inet-diag(PROCESS-NAME): $(ts_re "$(ipk_v "kmod-inet-diag")")
-unzip: $(ts_re "$(ipk_v "unzip")")
+busybox: $(ts_re "$(ipk_v "busybox")")
 EOF
 if [ -n "$(command -v fw4)" ]; then
 cat >> "$DEBUG_LOG" <<-EOF
