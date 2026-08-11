@@ -3956,7 +3956,7 @@ html[data-darkmode="true"] .oc .myip-card-icon.ic-youtube { color: #FF4444; }
 /* ==========================================================================
  * SECTION 6: developer.htm
  * ========================================================================== */
-html[data-darkmode="true"] .oc .developer-avatar {
+/* html[data-darkmode="true"] .oc .developer-avatar {
     border-color: var(--slate-a80);
     background: linear-gradient(45deg, var(--indigo) 0%, var(--grape) 100%);
 }
@@ -4125,13 +4125,13 @@ html[data-darkmode="true"] .oc .developer-label {
         opacity: 1;
         transform: translateY(0);
     }
-}
+} */
 
 /* ==========================================================================
  * SECTION 7: oixcloud.htm
  * ========================================================================== */
 
-html[data-darkmode="true"] .oc .card {
+/* html[data-darkmode="true"] .oc .card {
     background: linear-gradient(var(--bg-gray), var(--slate-500));
 }
 
@@ -4638,7 +4638,7 @@ html[data-darkmode="true"] .oc .oix-announcement::before {
     filter: brightness(0) invert(1);
     transform: scaleX(-1);
     z-index: auto;
-}
+} */
 
 /* ==========================================================================
  * SECTION 8: debug.htm
@@ -5239,7 +5239,7 @@ ul {
     justify-content: flex-start;
     padding: 16px 20px;
     border-bottom: 1px solid var(--border-light, #e2e8f0);
-    background: var(--bg-gray, #f1f5f9);
+    background: var(--bg-gray, #ffffff);
     min-width: 0;
     box-shadow: none;
     position: relative;
@@ -5249,7 +5249,7 @@ ul {
 #tab-header ul.oc-tabmenu {
     display: flex;
     width: 100%;
-    background: var(--bg-gray, #f1f5f9);
+    background: #ffffff;
     border-radius: 8px;
     border-bottom: none !important;
     border: none !important;
@@ -7013,8 +7013,8 @@ html[data-darkmode=true] .oc #addCustomOption:hover {
     .oc .main-cards-container {
         grid-template-columns: 1fr;
         gap: 11px;
-        max-width: 95%;
-        width: 95%;
+        /* max-width: 95%;
+        width: 95%; */
     }
     .oc .announcement-banner { grid-column: 1; width: 80%; max-width: 95%; }
     .oc .announcement-card   { grid-column: 1; width: 100%; max-width: 100%; }

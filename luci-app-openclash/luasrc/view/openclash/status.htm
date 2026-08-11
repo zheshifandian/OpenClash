@@ -10,20 +10,19 @@
 <link rel="stylesheet" href="/luci-static/resources/openclash/css/oc.css?v=<%=plugin_version%>">
 <script src="/luci-static/resources/openclash/js/cm6.min.js?v=<%=plugin_version%>"></script>
 </head>
-<fieldset class="cbi-section">
+<fieldset class="cbi-section" style="padding-top: 0px;">
     <table width="100%">
-    <tr>
-        <td colspan="4">
+        <div colspan="4">
             <div class="oc">
-                <div class="main-cards-container">
-                    <div class="announcement-card">
+                <div class="main-cards-container" style="grid-template-rows: minmax(6px, auto) 1fr;">
+                    <!-- <div class="announcement-card">
                         <div id="announcement-banner" class="announcement-banner">
                             <div class="megaphone-container">
                                 <svg id="megaphone" width="15" height="15"><use href="#oc-icon-megaphone"/></svg>
                             </div>
                             <div id="announcement-content" class="announcement-content"></div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="main-card">
                         <!-- Row 1: Running Status -->
                         <div class="card-row full-width core-status-row">
@@ -319,14 +318,13 @@
             </div>
 
             <!-- Usage Help Button -->
-            <div class="oc-usage-help-float" id="usage-help-float" title="<%:Usage Help%>" onclick="UsageHelpManager.show()">
+            <!-- <div class="oc-usage-help-float" id="usage-help-float" title="<%:Usage Help%>" onclick="UsageHelpManager.show()">
                 <svg width="24" height="24"><use href="#oc-icon-usage-help"/></svg>
                 <span class="oc-usage-help-bubble" id="usage-help-bubble"><%:Click to get usage help%></span>
+            </div> -->
             </div>
-            </div>
-        </td>
-    </tr>
-</table>
+        </div>
+    </table>
 </fieldset>
 
 <script src="/luci-static/resources/openclash/js/oc-icons.js?v=<%=plugin_version%>"></script>
