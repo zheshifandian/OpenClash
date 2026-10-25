@@ -37,7 +37,7 @@
 * ip-full
 * ruby
 * ruby-yaml
-* unzip
+* busybox
 * iptables(iptables)
 * kmod-ipt-nat(iptables)
 * iptables-mod-tproxy(iptables)

@@ -8,362 +8,337 @@
 <head>
 <link rel="stylesheet" href="/luci-static/resources/openclash/css/oc.css?v=<%=plugin_version%>">
 </head>
-<fieldset class="cbi-section">
+<fieldset class="cbi-section" style="padding-top: 0px;">
     <table width="100%">
-    <tr>
-        <td colspan="4">
-            <div class="oc">
-                <div class="main-cards-container">
-                    <div class="announcement-card">
-                        <div id="announcement-banner" class="announcement-banner">
-                            <div class="megaphone-container">
-                                <svg id="megaphone" xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 256 256">
-                                    <path d="M228.54,86.66l-176.06-54A16,16,0,0,0,32,48V192a16,16,0,0,0,16,16,16,16,0,0,0,4.52-.65L136,181.73V192a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16v-29.9l28.54-8.75A16.09,16.09,0,0,0,240,138V102A16.09,16.09,0,0,0,228.54,86.66ZM136,165,48,192V48l88,27Zm48,27H152V176.82L184,167Zm40-54-.11,0L152,160.08V79.92l71.89,22,.11,0v36Z"></path>
-                                </svg>
+        <div class="oc">
+            <div class="main-cards-container" style="grid-template-rows: minmax(6px, auto) 1fr;">
+                <div class="main-card">
+                    <!-- Row 1: Running Status -->
+                    <div class="card-row full-width core-status-row">
+                        <div class="sub-card">
+                            <div class="card-title"><%:Running Status%></div>
+                            <div class="version-display-container">
+                                <div class="version-display" id="plugin-version-display" style="display: none;">
+                                    <span class="version-text" id="plugin-version-text">-</span>
+                                </div>
+                                <div class="version-display" id="core-version-display" style="display: none;">
+                                    <span class="version-text" id="core-version-text">-</span>
+                                </div>
                             </div>
-                            <div id="announcement-content" class="announcement-content"></div>
+                            <div class="core-main-controls">
+                                <div class="core-status-toggle">
+                                    <span id="_clash" class="value-indicator"><%:Collecting data...%></span>
+                                    <span id="_oclog" class="value-indicator" style="display: none;"><%:Collecting data...%></span>
+                                    <div class="plugin-toggle-container">
+                                        <label class="plugin-toggle-switch">
+                                            <input type="checkbox" id="plugin_toggle" onchange="togglePlugin(this)">
+                                            <span class="plugin-toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="core-control-buttons">
+                                    <button type="button" class="icon-btn action-btn" id="restart_core" title="<%:Restart%>" onclick="return restartCore()">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                                    </button>
+                                    <button type="button" class="icon-btn action-btn" id="edit_overwrite" title="<%:Overwrite Module%>" onclick="return editOverwrite()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                            <path d="M12,111l112,64a8,8,0,0,0,7.94,0l112-64a8,8,0,0,0,0-13.9l-112-64a8,8,0,0,0-7.94,0l-112,64A8,8,0,0,0,12,111ZM128,49.21,223.87,104,128,158.79,32.13,104ZM246.94,140A8,8,0,0,1,244,151L132,215a8,8,0,0,1-7.94,0L12,151A8,8,0,0,1,20,137.05l108,61.74,108-61.74A8,8,0,0,1,246.94,140Z"></path>
+                                        </svg>
+                                        <span class="btn-text"><%:Overwrite Module%></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button type="button" class="icon-btn theme-toggle-btn" id="theme-toggle" onclick="toggleThemeMode()">
+                                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <title><%:Light Theme%></title>
+                                        <circle cx="12" cy="12" r="5"></circle>
+                                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                    </svg>
+                                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none">
+                                        <title><%:Dark Theme%></title>
+                                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                    </svg>
+                                    <svg id="auto-icon" width="14" height="14" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="4" style="display: none">
+                                        <title><%:Auto Theme%></title>
+                                        <path d="M24 44C29.9601 44 26.3359 35.136 30 31C33.1264 27.4709 44 29.0856 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"/>
+                                        <path d="M28 17C29.6569 17 31 15.6569 31 14C31 12.3431 29.6569 11 28 11C26.3431 11 25 12.3431 25 14C25 15.6569 26.3431 17 28 17Z"/>
+                                        <path d="M16 21C17.6569 21 19 19.6569 19 18C19 16.3431 17.6569 15 16 15C14.3431 15 13 16.3431 13 18C13 19.6569 14.3431 21 16 21Z"/>
+                                        <path d="M17 34C18.6569 34 20 32.6569 20 31C20 29.3431 18.6569 28 17 28C15.3431 28 14 29.3431 14 31C14 32.6569 15.3431 34 17 34Z"/>
+                                    </svg>
+                                </button>
+                                <button type="button" class="icon-btn action-btn" id="go_wiki" title="<%:Wiki%>" onclick="return wikipage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></button>
+                                <button type="button" class="icon-btn action-btn" id="go_tutorials" title="<%:Tutorials%>" onclick="return gitbookpage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></button>
+                                <button type="button" class="icon-btn action-btn" id="go_star" title="<%:Star%>" onclick="return homepage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></button>
+                                <button type="button" class="icon-btn action-btn" id="go_telegram" title="<%:Telegram%>" onclick="return telegrampage()"><svg width="14" height="14" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="20"><path d="M80,134.87,170.26,214a8,8,0,0,0,13.09-4.21L224,33.22a1,1,0,0,0-1.34-1.15L20,111.38A6.23,6.23,0,0,0,21,123.3Z" stroke-linecap="round" stroke-linejoin="round"/><line x1="80" y1="134.87" x2="223.41" y2="32.09" stroke-linecap="round" stroke-linejoin="round"/><path d="M124.37,173.78,93.76,205.54A8,8,0,0,1,80,200V134.87" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                                <button type="button" class="icon-btn action-btn" id="go_sponsor" title="<%:Sponsor%>" onclick="return sponsorpage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+                                <button type="button" class="icon-btn action-btn" id="logo_btn" title="Mihomo" onclick="return go_mihomo();">
+                                    <img id="_logo" src="/luci-static/resources/openclash/img/logo.png?v=<%=plugin_version%>" loading="lazy" width="14px" height="14px" alt="Mihomo"/>
+                                    <span class="logo-text">Powered by <span class="mihomo-link">Mihomo</span></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="main-card">
-                        <!-- Row 1: Running Status -->
-                        <div class="card-row full-width core-status-row">
-                            <div class="sub-card">
-                                <div class="card-title"><%:Running Status%></div>
-                                <div class="version-display-container">
-                                    <div class="version-display" id="plugin-version-display" style="display: none;">
-                                        <span class="version-text" id="plugin-version-text">-</span>
-                                    </div>
-                                    <div class="version-display" id="core-version-display" style="display: none;">
-                                        <span class="version-text" id="core-version-text">-</span>
-                                    </div>
-                                </div>
-                                <div class="core-main-controls">
-                                    <div class="core-status-toggle">
-                                        <span id="_clash" class="value-indicator"><%:Collecting data...%></span>
-                                        <span id="_oclog" class="value-indicator" style="display: none;"><%:Collecting data...%></span>
-                                        <div class="plugin-toggle-container">
-                                            <label class="plugin-toggle-switch">
-                                                <input type="checkbox" id="plugin_toggle" onchange="togglePlugin(this)">
-                                                <span class="plugin-toggle-slider"></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="core-control-buttons">
-                                        <button type="button" class="icon-btn action-btn" id="restart_core" title="<%:Restart%>" onclick="return restartCore()">
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                                        </button>
-                                        <button type="button" class="icon-btn action-btn" id="edit_overwrite" title="<%:Overwrite Module%>" onclick="return editOverwrite()">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
-                                                <path d="M12,111l112,64a8,8,0,0,0,7.94,0l112-64a8,8,0,0,0,0-13.9l-112-64a8,8,0,0,0-7.94,0l-112,64A8,8,0,0,0,12,111ZM128,49.21,223.87,104,128,158.79,32.13,104ZM246.94,140A8,8,0,0,1,244,151L132,215a8,8,0,0,1-7.94,0L12,151A8,8,0,0,1,20,137.05l108,61.74,108-61.74A8,8,0,0,1,246.94,140Z"></path>
-                                            </svg>
-                                            <span class="btn-text"><%:Overwrite Module%></span>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-actions">
-                                    <button type="button" class="icon-btn theme-toggle-btn" id="theme-toggle" onclick="toggleThemeMode()">
-                                        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <title><%:Light Theme%></title>
-                                            <circle cx="12" cy="12" r="5"></circle>
-                                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                        </svg>
-                                        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none">
-                                            <title><%:Dark Theme%></title>
-                                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                                        </svg>
-                                        <svg id="auto-icon" width="14" height="14" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="4" style="display: none">
-                                            <title><%:Auto Theme%></title>
-                                            <path d="M24 44C29.9601 44 26.3359 35.136 30 31C33.1264 27.4709 44 29.0856 44 24C44 12.9543 35.0457 4 24 4C12.9543 4 4 12.9543 4 24C4 35.0457 12.9543 44 24 44Z"/>
-                                            <path d="M28 17C29.6569 17 31 15.6569 31 14C31 12.3431 29.6569 11 28 11C26.3431 11 25 12.3431 25 14C25 15.6569 26.3431 17 28 17Z"/>
-                                            <path d="M16 21C17.6569 21 19 19.6569 19 18C19 16.3431 17.6569 15 16 15C14.3431 15 13 16.3431 13 18C13 19.6569 14.3431 21 16 21Z"/>
-                                            <path d="M17 34C18.6569 34 20 32.6569 20 31C20 29.3431 18.6569 28 17 28C15.3431 28 14 29.3431 14 31C14 32.6569 15.3431 34 17 34Z"/>
-                                        </svg>
-                                    </button>
-                                    <button type="button" class="icon-btn action-btn" id="go_wiki" title="<%:Wiki%>" onclick="return wikipage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></button>
-                                    <button type="button" class="icon-btn action-btn" id="go_tutorials" title="<%:Tutorials%>" onclick="return gitbookpage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></button>
-                                    <button type="button" class="icon-btn action-btn" id="go_star" title="<%:Star%>" onclick="return homepage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></button>
-                                    <button type="button" class="icon-btn action-btn" id="go_telegram" title="<%:Telegram%>" onclick="return telegrampage()"><svg width="14" height="14" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="20"><path d="M80,134.87,170.26,214a8,8,0,0,0,13.09-4.21L224,33.22a1,1,0,0,0-1.34-1.15L20,111.38A6.23,6.23,0,0,0,21,123.3Z" stroke-linecap="round" stroke-linejoin="round"/><line x1="80" y1="134.87" x2="223.41" y2="32.09" stroke-linecap="round" stroke-linejoin="round"/><path d="M124.37,173.78,93.76,205.54A8,8,0,0,1,80,200V134.87" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                                    <button type="button" class="icon-btn action-btn" id="go_sponsor" title="<%:Sponsor%>" onclick="return sponsorpage()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
-                                    <button type="button" class="icon-btn action-btn" id="logo_btn" title="Mihomo" onclick="return go_mihomo();">
-                                        <img id="_logo" src="/luci-static/resources/openclash/img/logo.png?v=<%=plugin_version%>" loading="lazy" width="14px" height="14px" alt="Mihomo"/>
-                                        <span class="logo-text">Powered by <span class="mihomo-link">Mihomo</span></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- Row 2: Running Mode & Proxy Mode -->
-                        <div class="card-row dual-cards mode-row">
-                            <div class="sub-card">
-                                <div class="card-title"><%:Running Mode%></div>
-                                <div class="card-content">
-                                    <div class="card-value"><span id="_mode" class="value-indicator"><%:Collecting data...%></span></div>
-                                    <div class="card-controls">
-                                        <div id="radio-ru-mode" class="cbi-button-group" style="display: inline-flex;">
-                                            <input type="radio" id="normal" name="radios-ru" value="" onclick="return switch_run_mode(this.value)"/><label for="normal" id="run_normal" class="cbi-button-option"><%:Compat%></label>
-                                            <input type="radio" id="tun" name="radios-ru" value="-tun" onclick="return switch_run_mode(this.value)"/><label for="tun" class="cbi-button-option"><%:TUN%></label>
-                                            <input type="radio" id="mix" name="radios-ru" value="-mix" onclick="return switch_run_mode(this.value)"/><label for="mix" class="cbi-button-option"><%:Mix%></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sub-card">
-                                <div class="card-title"><%:Proxy Mode%></div>
-                                <div class="card-content">
-                                    <div class="card-controls">
-                                        <div id="radio-mode" class="cbi-button-group" style="display: inline-flex;">
-                                            <input type="radio" id="rule" name="radios" value="rule" onclick="return switch_rule_mode(this.value)"/><label for="rule" class="cbi-button-option"><%:Rule%></label>
-                                            <input type="radio" id="global" name="radios" value="global" onclick="return switch_rule_mode(this.value)"/><label for="global" class="cbi-button-option"><%:Global%></label>
-                                            <input type="radio" id="direct" name="radios" value="direct" onclick="return switch_rule_mode(this.value)"/><label for="direct" class="cbi-button-option"><%:Direct%></label>
-                                        </div>
+                    <!-- Row 2: Running Mode & Proxy Mode -->
+                    <div class="card-row dual-cards mode-row">
+                        <div class="sub-card">
+                            <div class="card-title"><%:Running Mode%></div>
+                            <div class="card-content">
+                                <div class="card-value"><span id="_mode" class="value-indicator"><%:Collecting data...%></span></div>
+                                <div class="card-controls">
+                                    <div id="radio-ru-mode" class="cbi-button-group" style="display: inline-flex;">
+                                        <input type="radio" id="normal" name="radios-ru" value="" onclick="return switch_run_mode(this.value)"/><label for="normal" id="run_normal" class="cbi-button-option"><%:Compat%></label>
+                                        <input type="radio" id="tun" name="radios-ru" value="-tun" onclick="return switch_run_mode(this.value)"/><label for="tun" class="cbi-button-option"><%:TUN%></label>
+                                        <input type="radio" id="mix" name="radios-ru" value="-mix" onclick="return switch_run_mode(this.value)"/><label for="mix" class="cbi-button-option"><%:Mix%></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Row 3: Settings -->
-                        <div class="card-row stats-grid">
-                            <div class="sub-card">
-                                <div class="card-title"><%:Area Bypass%><div class="help-link" title="<%:Bypass Specified Regions Network Flows, Improve Performance, If Inaccessibility on Bypass Gateway, Try to Enable Bypass Gateway Compatible Option%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div></div>
-                                <div class="card-content">
-                                    <div class="card-controls">
-                                        <div id="oc-setting-oversea" class="cbi-button-group" style="display: inline-flex;">
-                                            <input type="radio" id="oc_setting_oversea_1" name="oc-setting-oversea" value="1" onclick="return switch_oc_setting_oversea('1')"/><label for="oc_setting_oversea_1" class="cbi-button-option"><%:Mainland%></label>
-                                            <input type="radio" id="oc_setting_oversea_2" name="oc-setting-oversea" value="2" onclick="return switch_oc_setting_oversea('2')"/><label for="oc_setting_oversea_2" class="cbi-button-option"><%:Oversea%></label>
-                                            <input type="radio" id="oc_setting_oversea_0" name="oc-setting-oversea" value="0" onclick="return switch_oc_setting_oversea('0')"/><label for="oc_setting_oversea_0" class="cbi-button-option"><%:Off%></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sub-card">
-                                <div class="card-title"><%:Sniffer%><a href="javascript:void(0);" onclick="window.open('https://wiki.metacubex.one/config/sniff/?h=sniff#_1', '_blank');" class="help-link" title="<%:Sniff the domain name of the traffics to avoid rule-based proxy failure%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></a></div>
-                                <div class="card-content">
-                                    <div class="card-controls">
-                                        <div id="dns-setting-sniffer" class="cbi-button-group" style="display: inline-flex;">
-                                            <input type="radio" id="meta_sniffer_on" name="meta-sniffer-radios" value="1" onclick="return switch_meta_sniffer('1')"/><label for="meta_sniffer_on" class="cbi-button-option"><%:On%></label>
-                                            <input type="radio" id="meta_sniffer_off" name="meta-sniffer-radios" value="0" onclick="return switch_meta_sniffer('0')"/><label for="meta_sniffer_off" class="cbi-button-option"><%:Off%></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sub-card">
-                                <div class="card-title"><%:DNS Proxy%><a href="javascript:void(0);" onclick="window.open('https://wiki.metacubex.one/config/dns/?h=res#respect-rules', '_blank');" class="help-link" title="<%:DNS querys respect-rules to preventing access failure%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></a></div>
-                                <div class="card-content">
-                                    <div class="card-controls">
-                                        <div id="dns-setting-respect" class="cbi-button-group" style="display: inline-flex;">
-                                            <input type="radio" id="respect_rules_on" name="respect-rules-radios" value="1" onclick="return switch_respect_rules('1')"/><label for="respect_rules_on" class="cbi-button-option"><%:On%></label>
-                                            <input type="radio" id="respect_rules_off" name="respect-rules-radios" value="0" onclick="return switch_respect_rules('0')"/><label for="respect_rules_off" class="cbi-button-option"><%:Off%></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sub-card">
-                                <div class="card-title"><%:Stream Unlock%><div class="help-link" title="<%:Auto Select Proxy For Streaming Unlock, Support Netflix, Disney Plus, HBO And YouTube Premium, etc%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div></div>
-                                <div class="card-content">
-                                    <div class="card-controls">
-                                        <div id="stream-unlock-setting" class="cbi-button-group" style="display: inline-flex;">
-                                            <input type="radio" id="stream_unlock_on" name="stream-unlock-radios" value="1" onclick="return switch_stream_unlock('1')"/><label for="stream_unlock_on" class="cbi-button-option"><%:On%></label>
-                                            <input type="radio" id="stream_unlock_off" name="stream-unlock-radios" value="0" onclick="return switch_stream_unlock('0')"/><label for="stream_unlock_off" class="cbi-button-option"><%:Off%></label>
-                                        </div>
+                        <div class="sub-card">
+                            <div class="card-title"><%:Proxy Mode%></div>
+                            <div class="card-content">
+                                <div class="card-controls">
+                                    <div id="radio-mode" class="cbi-button-group" style="display: inline-flex;">
+                                        <input type="radio" id="rule" name="radios" value="rule" onclick="return switch_rule_mode(this.value)"/><label for="rule" class="cbi-button-option"><%:Rule%></label>
+                                        <input type="radio" id="global" name="radios" value="global" onclick="return switch_rule_mode(this.value)"/><label for="global" class="cbi-button-option"><%:Global%></label>
+                                        <input type="radio" id="direct" name="radios" value="direct" onclick="return switch_rule_mode(this.value)"/><label for="direct" class="cbi-button-option"><%:Direct%></label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Row 4: Config File -->
-                        <div class="card-row full-width">
-                            <div class="sub-card">
-                                <div class="card-title"><%:Config File%></div>
-                                <div class="config-file-content">
-                                    <div id="subscription-info-display" class="subscription-info-container" style="display: none;">
-                                        <div class="subscription-nav-arrow left" id="subscription-prev-arrow" onclick="switchToPreviousConfig()" title="<%:Previous%>"></div>
-                                        <div class="subscription-nav-arrow right" id="subscription-next-arrow" onclick="switchToNextConfig()" title="<%:Next%>"></div>
-                                        <div class="subscription-info-main">
-                                            <div class="subscription-info-header">
-                                                <div class="config-file-name-wrapper">
-                                                    <div class="config-file-name" id="current-config-name"><%:No Config Selected%></div>
-                                                    <span id="age-file-icon" class="age-file-icon" style="display:none;"></span>
-                                                </div>
-                                                <div class="file-info" id="file-info-section">
-                                                    <span id="file-modify-time" class="file-info-item"><%:Modified: %> --</span>
-                                                </div>
+                    <!-- Row 3: Settings -->
+                    <div class="card-row stats-grid">
+                        <div class="sub-card">
+                            <div class="card-title"><%:Area Bypass%><div class="help-link" title="<%:Bypass Specified Regions Network Flows, Improve Performance, If Inaccessibility on Bypass Gateway, Try to Enable Bypass Gateway Compatible Option%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div></div>
+                            <div class="card-content">
+                                <div class="card-controls">
+                                    <div id="oc-setting-oversea" class="cbi-button-group" style="display: inline-flex;">
+                                        <input type="radio" id="oc_setting_oversea_1" name="oc-setting-oversea" value="1" onclick="return switch_oc_setting_oversea('1')"/><label for="oc_setting_oversea_1" class="cbi-button-option"><%:Mainland%></label>
+                                        <input type="radio" id="oc_setting_oversea_2" name="oc-setting-oversea" value="2" onclick="return switch_oc_setting_oversea('2')"/><label for="oc_setting_oversea_2" class="cbi-button-option"><%:Oversea%></label>
+                                        <input type="radio" id="oc_setting_oversea_0" name="oc-setting-oversea" value="0" onclick="return switch_oc_setting_oversea('0')"/><label for="oc_setting_oversea_0" class="cbi-button-option"><%:Off%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-card">
+                            <div class="card-title"><%:Sniffer%><a href="javascript:void(0);" onclick="window.open('https://wiki.metacubex.one/config/sniff/?h=sniff#_1', '_blank');" class="help-link" title="<%:Sniff the domain name of the traffics to avoid rule-based proxy failure%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></a></div>
+                            <div class="card-content">
+                                <div class="card-controls">
+                                    <div id="dns-setting-sniffer" class="cbi-button-group" style="display: inline-flex;">
+                                        <input type="radio" id="meta_sniffer_on" name="meta-sniffer-radios" value="1" onclick="return switch_meta_sniffer('1')"/><label for="meta_sniffer_on" class="cbi-button-option"><%:On%></label>
+                                        <input type="radio" id="meta_sniffer_off" name="meta-sniffer-radios" value="0" onclick="return switch_meta_sniffer('0')"/><label for="meta_sniffer_off" class="cbi-button-option"><%:Off%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-card">
+                            <div class="card-title"><%:DNS Proxy%><a href="javascript:void(0);" onclick="window.open('https://wiki.metacubex.one/config/dns/?h=res#respect-rules', '_blank');" class="help-link" title="<%:DNS querys respect-rules to preventing access failure%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></a></div>
+                            <div class="card-content">
+                                <div class="card-controls">
+                                    <div id="dns-setting-respect" class="cbi-button-group" style="display: inline-flex;">
+                                        <input type="radio" id="respect_rules_on" name="respect-rules-radios" value="1" onclick="return switch_respect_rules('1')"/><label for="respect_rules_on" class="cbi-button-option"><%:On%></label>
+                                        <input type="radio" id="respect_rules_off" name="respect-rules-radios" value="0" onclick="return switch_respect_rules('0')"/><label for="respect_rules_off" class="cbi-button-option"><%:Off%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sub-card">
+                            <div class="card-title"><%:Stream Unlock%><div class="help-link" title="<%:Auto Select Proxy For Streaming Unlock, Support Netflix, Disney Plus, HBO And YouTube Premium, etc%>"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div></div>
+                            <div class="card-content">
+                                <div class="card-controls">
+                                    <div id="stream-unlock-setting" class="cbi-button-group" style="display: inline-flex;">
+                                        <input type="radio" id="stream_unlock_on" name="stream-unlock-radios" value="1" onclick="return switch_stream_unlock('1')"/><label for="stream_unlock_on" class="cbi-button-option"><%:On%></label>
+                                        <input type="radio" id="stream_unlock_off" name="stream-unlock-radios" value="0" onclick="return switch_stream_unlock('0')"/><label for="stream_unlock_off" class="cbi-button-option"><%:Off%></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Config File -->
+                    <div class="card-row full-width">
+                        <div class="sub-card">
+                            <div class="card-title"><%:Config File%></div>
+                            <div class="config-file-content">
+                                <div id="subscription-info-display" class="subscription-info-container" style="display: none;">
+                                    <div class="subscription-nav-arrow left" id="subscription-prev-arrow" onclick="switchToPreviousConfig()" title="<%:Previous%>"></div>
+                                    <div class="subscription-nav-arrow right" id="subscription-next-arrow" onclick="switchToNextConfig()" title="<%:Next%>"></div>
+                                    <div class="subscription-info-main">
+                                        <div class="subscription-info-header">
+                                            <div class="config-file-name-wrapper">
+                                                <div class="config-file-name" id="current-config-name"><%:No Config Selected%></div>
+                                                <span id="age-file-icon" class="age-file-icon" style="display:none;"></span>
                                             </div>
-                                            <div class="subscription-info-details">
-                                                <div class="subscription-progress" id="subscription-progress-section" style="display: none;">
-                                                    <div class="subscription-progress-bar">
-                                                        <div id="subscription-progress-fill" class="subscription-progress-fill high" style="width: 0%"></div>
-                                                    </div>
-                                                    <div id="subscription-info-text" class="subscription-info-text"><%:Collecting data...%></div>
+                                            <div class="file-info" id="file-info-section">
+                                                <span id="file-modify-time" class="file-info-item"><%:Modified: %> --</span>
+                                            </div>
+                                        </div>
+                                        <div class="subscription-info-details">
+                                            <div class="subscription-progress" id="subscription-progress-section" style="display: none;">
+                                                <div class="subscription-progress-bar">
+                                                    <div id="subscription-progress-fill" class="subscription-progress-fill high" style="width: 0%"></div>
                                                 </div>
-                                                <div class="card-actions subscription-actions-row">
-                                                    <div id="subscription-overwrite-tags" class="subscription-overwrite-tags" style="display: none;"></div>
-                                                    <div class="subscription-action-buttons">
-                                                        <button type="button" class="icon-btn action-btn" id="refresh-subscription" title="<%:Refresh%>" onclick="return refreshSubscriptionInfo()">
-                                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                                <path d="M23 4v6h-6"></path>
-                                                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                                                            </svg>
-                                                        </button>
-                                                        <button type="button" class="icon-btn action-btn" id="config-subscription-url" title="<%:Specify URL%>" onclick="return setSubscriptionUrl()">
-                                                            <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4">
-                                                                <path d="M4 6H44V36H29L24 41L19 36H4V6Z"/>
-                                                                <path d="M23 21H25.0025" />
-                                                                <path d="M33.001 21H34.9999"/>
-                                                                <path d="M13.001 21H14.9999"/>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
+                                                <div id="subscription-info-text" class="subscription-info-text"><%:Collecting data...%></div>
+                                            </div>
+                                            <div class="card-actions subscription-actions-row">
+                                                <div id="subscription-overwrite-tags" class="subscription-overwrite-tags" style="display: none;"></div>
+                                                <div class="subscription-action-buttons">
+                                                    <button type="button" class="icon-btn action-btn" id="refresh-subscription" title="<%:Refresh%>" onclick="return refreshSubscriptionInfo()">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                            <path d="M23 4v6h-6"></path>
+                                                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <button type="button" class="icon-btn action-btn" id="config-subscription-url" title="<%:Specify URL%>" onclick="return setSubscriptionUrl()">
+                                                        <svg width="14" height="14" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4">
+                                                            <path d="M4 6H44V36H29L24 41L19 36H4V6Z"/>
+                                                            <path d="M23 21H25.0025" />
+                                                            <path d="M33.001 21H34.9999"/>
+                                                            <path d="M13.001 21H14.9999"/>
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div id="config-file-empty-state" class="config-file-empty-state" style="display: none;">
-                                        <div class="config-file-empty-message"><%:No config files found, Please upload a config file to get started%></div>
-                                        <button type="button" class="config-upload-btn-large" id="upload_config_large" onclick="return uploadConfig()">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                                <polyline points="17,8 12,3 7,8"></polyline>
-                                                <line x1="12" y1="3" x2="12" y2="15"></line>
-                                            </svg>
-                                            <%:Add Config File%>
-                                        </button>
-                                    </div>
-
-                                    <div class="config-file-bottom">
-                                        <div class="config-selector">
-                                            <select id="config_file_select" class="config-select"><option value=""><%:Collecting data...%></option></select>
-                                        </div>
-                                        <div class="card-actions">
-                                            <button type="button" class="icon-btn action-btn" id="switch_config" title="<%:SwiTch%>" onclick="return switchConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg></button>
-                                            <button type="button" class="icon-btn action-btn" id="update_config" title="<%:Update%>" onclick="return updateConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M21 21v-5h-5"></path></svg></button>
-                                            <button type="button" class="icon-btn action-btn" id="edit_config" title="<%:Edit%>" onclick="return editConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
-                                            <button type="button" class="icon-btn action-btn" id="edit_subscribe" title="<%:Edit Subscription%>" onclick="return editSubscribe()"><svg width="14" height="14" viewBox="0 0 48 48" fill="none"><path d="M18.2838 43.1713C14.9327 42.1736 11.9498 40.3213 9.58787 37.867C10.469 36.8227 11 35.4734 11 34.0001C11 30.6864 8.31371 28.0001 5 28.0001C4.79955 28.0001 4.60139 28.01 4.40599 28.0292C4.13979 26.7277 4 25.3803 4 24.0001C4 21.9095 4.32077 19.8938 4.91579 17.9995C4.94381 17.9999 4.97188 18.0001 5 18.0001C8.31371 18.0001 11 15.3138 11 12.0001C11 11.0488 10.7786 10.1493 10.3846 9.35011C12.6975 7.1995 15.5205 5.59002 18.6521 4.72314C19.6444 6.66819 21.6667 8.00013 24 8.00013C26.3333 8.00013 28.3556 6.66819 29.3479 4.72314C32.4795 5.59002 35.3025 7.1995 37.6154 9.35011C37.2214 10.1493 37 11.0488 37 12.0001C37 15.3138 39.6863 18.0001 43 18.0001C43.0281 18.0001 43.0562 17.9999 43.0842 17.9995C43.6792 19.8938 44 21.9095 44 24.0001C44 25.3803 43.8602 26.7277 43.594 28.0292C43.3986 28.01 43.2005 28.0001 43 28.0001C39.6863 28.0001 37 30.6864 37 34.0001C37 35.4734 37.531 36.8227 38.4121 37.867C36.0502 40.3213 33.0673 42.1736 29.7162 43.1713C28.9428 40.752 26.676 39.0001 24 39.0001C21.324 39.0001 19.0572 40.752 18.2838 43.1713Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M24 31C27.866 31 31 27.866 31 24C31 20.134 27.866 17 24 17C20.134 17 17 20.134 17 24C17 27.866 20.134 31 24 31Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg></button>
-                                            <button type="button" class="icon-btn action-btn" id="upload_config" title="<%:Add%>" onclick="return uploadConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                                        </div>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="main-card">
-                        <!-- Row 1: Control Panel & Mix Proxy -->
-                        <div class="card-row dual-cards">
-                            <div class="sub-card">
-                                <div class="card-title"><%:Control Panel%></div>
-                                <div class="card-content">
-                                    <div class="card-value">
-                                        <span id="_daip" class="value-indicator"><%:Collecting data...%></span>
+                                <div id="config-file-empty-state" class="config-file-empty-state" style="display: none;">
+                                    <div class="config-file-empty-message"><%:No config files found, Please upload a config file to get started%></div>
+                                    <button type="button" class="config-upload-btn-large" id="upload_config_large" onclick="return uploadConfig()">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="17,8 12,3 7,8"></polyline>
+                                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                                        </svg>
+                                        <%:Add Config File%>
+                                    </button>
+                                </div>
+
+                                <div class="config-file-bottom">
+                                    <div class="config-selector">
+                                        <select id="config_file_select" class="config-select"><option value=""><%:Collecting data...%></option></select>
+                                    </div>
+                                    <div class="card-actions">
+                                        <button type="button" class="icon-btn action-btn" id="switch_config" title="<%:SwiTch%>" onclick="return switchConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg></button>
+                                        <button type="button" class="icon-btn action-btn" id="update_config" title="<%:Update%>" onclick="return updateConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M21 21v-5h-5"></path></svg></button>
+                                        <button type="button" class="icon-btn action-btn" id="edit_config" title="<%:Edit%>" onclick="return editConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                                        <button type="button" class="icon-btn action-btn" id="edit_subscribe" title="<%:Edit Subscription%>" onclick="return editSubscribe()"><svg width="14" height="14" viewBox="0 0 48 48" fill="none"><path d="M18.2838 43.1713C14.9327 42.1736 11.9498 40.3213 9.58787 37.867C10.469 36.8227 11 35.4734 11 34.0001C11 30.6864 8.31371 28.0001 5 28.0001C4.79955 28.0001 4.60139 28.01 4.40599 28.0292C4.13979 26.7277 4 25.3803 4 24.0001C4 21.9095 4.32077 19.8938 4.91579 17.9995C4.94381 17.9999 4.97188 18.0001 5 18.0001C8.31371 18.0001 11 15.3138 11 12.0001C11 11.0488 10.7786 10.1493 10.3846 9.35011C12.6975 7.1995 15.5205 5.59002 18.6521 4.72314C19.6444 6.66819 21.6667 8.00013 24 8.00013C26.3333 8.00013 28.3556 6.66819 29.3479 4.72314C32.4795 5.59002 35.3025 7.1995 37.6154 9.35011C37.2214 10.1493 37 11.0488 37 12.0001C37 15.3138 39.6863 18.0001 43 18.0001C43.0281 18.0001 43.0562 17.9999 43.0842 17.9995C43.6792 19.8938 44 21.9095 44 24.0001C44 25.3803 43.8602 26.7277 43.594 28.0292C43.3986 28.01 43.2005 28.0001 43 28.0001C39.6863 28.0001 37 30.6864 37 34.0001C37 35.4734 37.531 36.8227 38.4121 37.867C36.0502 40.3213 33.0673 42.1736 29.7162 43.1713C28.9428 40.752 26.676 39.0001 24 39.0001C21.324 39.0001 19.0572 40.752 18.2838 43.1713Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M24 31C27.866 31 31 27.866 31 24C31 20.134 27.866 17 24 17C20.134 17 17 20.134 17 24C17 27.866 20.134 31 24 31Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg></button>
+                                        <button type="button" class="icon-btn action-btn" id="upload_config" title="<%:Add%>" onclick="return uploadConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                                     </div>
                                 </div>
-                                <div class="card-actions">
-                                    <button type="button" class="icon-btn copy-btn" id="copy_address" title="<%:Copy Address%>" onclick="return copyAddress()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-                                    <button type="button" class="icon-btn copy-btn" id="copy_secret" title="<%:Copy Secret%>" onclick="return copySecret()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></button>
-                                </div>
                             </div>
-                            <div class="sub-card">
-                                <div class="card-title"><%:Mix Proxy%></div>
-                                <div class="card-content">
-                                    <div class="card-value">
-                                        <span id="_mix_proxy" class="value-indicator"><%:Collecting data...%></span>
-                                    </div>
-                                </div>
-                                <div class="card-actions">
-                                    <button type="button" class="icon-btn copy-btn" id="copy_mix_address" title="<%:Copy Address%>" onclick="return copyMixAddress()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
-                                    <button type="button" class="icon-btn action-btn" id="copy_pac_config" title="<%:Get PAC Config%>" onclick="return generatePacConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></button>
-                                    <button type="button" class="icon-btn copy-btn" id="copy_mix_secret" title="<%:Copy Auth Info%>" onclick="return copyMixAuth()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 2: Dashboards -->
-                        <div class="card-row full-width">
-                            <div class="sub-card dashboard-container">
-                                <div class="card-title"><%:Control Panel%></div>
-                                <div class="dashboard-buttons">
-                                    <button class="dashboard-btn" id="_web"><%:Collecting data...%></button>
-                                    <button class="dashboard-btn" id="_webm"><%:Collecting data...%></button>
-                                    <button class="dashboard-btn" id="_webz"><%:Collecting data...%></button>
-                                    <button class="dashboard-btn" id="_webo"><%:Collecting data...%></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 3: Quick Actions -->
-                        <div class="card-row full-width">
-                            <div class="sub-card quick-actions-container">
-                                <div class="card-title"><%:Quick Action%></div>
-                                <div class="quick-actions-buttons">
-                                    <button class="dashboard-btn" id="_close_all_connection_btn"><%:Collecting data...%></button>
-                                    <button class="dashboard-btn" id="_reload_firewall_btn"><%:Collecting data...%></button>
-                                    <button class="dashboard-btn" id="_flush_dns_cache_btn"><%:Collecting data...%></button>
-                                    <button class="dashboard-btn" id="_one_key_update_btn"><%:Collecting data...%></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 4: Statistics -->
-                        <div class="card-row stats-grid">
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Up%></span><span id="upload_" class="stat-value">0 KB/S</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Down%></span><span id="download_" class="stat-value">0 KB/S</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Up Total%></span><span id="uploadtotal_" class="stat-value">0 KB</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Down Total%></span><span id="downloadtotal_" class="stat-value">0 KB</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Connect%></span><span id="connect_t" class="stat-value">0</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Ram%></span><span id="mem_t" class="stat-value">0 KB</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:CPU%></span><span id="cpu_t" class="stat-value">0 %</span></div>
-                            <div class="sub-card stat-item"><span class="stat-label"><%:Load Avg%></span><span id="load_a" class="stat-value">0 %</span></div>
                         </div>
                     </div>
                 </div>
 
-            <!-- Usage Help Model -->
-            <div class="config-upload-model-overlay" id="usage-help-overlay" style="display: none;">
-                <div class="config-upload-model" id="usage-help-model">
-                    <div class="config-upload-header">
-                        <div class="config-upload-title"><%:Usage Help%></div>
-                        <button type="button" class="icon-btn" onclick="UsageHelpManager.hide()">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                        </button>
-                    </div>
-                    <div class="config-upload-content">
-                        <div class="form-group">
-                            <label class="highlight-label"><%:Copy the following text to any AI (ChatGPT, DeepSeek, etc.) to get usage help for OpenClash:%></label>
-                            <textarea id="usage-help-textarea" class="form-textarea" rows="10"></textarea>
+                <div class="main-card">
+                    <!-- Row 1: Control Panel & Mix Proxy -->
+                    <div class="card-row dual-cards">
+                        <div class="sub-card">
+                            <div class="card-title"><%:Control Panel%></div>
+                            <div class="card-content">
+                                <div class="card-value">
+                                    <span id="_daip" class="value-indicator"><%:Collecting data...%></span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button type="button" class="icon-btn copy-btn" id="copy_address" title="<%:Copy Address%>" onclick="return copyAddress()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                                <button type="button" class="icon-btn copy-btn" id="copy_secret" title="<%:Copy Secret%>" onclick="return copySecret()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></button>
+                            </div>
+                        </div>
+                        <div class="sub-card">
+                            <div class="card-title"><%:Mix Proxy%></div>
+                            <div class="card-content">
+                                <div class="card-value">
+                                    <span id="_mix_proxy" class="value-indicator"><%:Collecting data...%></span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button type="button" class="icon-btn copy-btn" id="copy_mix_address" title="<%:Copy Address%>" onclick="return copyMixAddress()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
+                                <button type="button" class="icon-btn action-btn" id="copy_pac_config" title="<%:Get PAC Config%>" onclick="return generatePacConfig()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg></button>
+                                <button type="button" class="icon-btn copy-btn" id="copy_mix_secret" title="<%:Copy Auth Info%>" onclick="return copyMixAuth()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></button>
+                            </div>
                         </div>
                     </div>
-                    <div class="config-upload-footer">
-                        <div class="config-upload-status" id="usage-help-status"></div>
-                        <div class="config-upload-buttons">
-                            <button type="button" class="btn cancel-btn" onclick="UsageHelpManager.hide()"><%:Cancel%></button>
-                            <button type="button" class="btn upload-btn" onclick="UsageHelpManager.copyAndHide()"><%:Copy And Close%></button>
+
+                    <!-- Row 2: Dashboards -->
+                    <div class="card-row full-width">
+                        <div class="sub-card dashboard-container">
+                            <div class="card-title"><%:Control Panel%></div>
+                            <div class="dashboard-buttons">
+                                <button class="dashboard-btn" id="_web"><%:Collecting data...%></button>
+                                <button class="dashboard-btn" id="_webm"><%:Collecting data...%></button>
+                                <button class="dashboard-btn" id="_webz"><%:Collecting data...%></button>
+                                <button class="dashboard-btn" id="_webo"><%:Collecting data...%></button>
+                            </div>
                         </div>
+                    </div>
+
+                    <!-- Row 3: Quick Actions -->
+                    <div class="card-row full-width">
+                        <div class="sub-card quick-actions-container">
+                            <div class="card-title"><%:Quick Action%></div>
+                            <div class="quick-actions-buttons">
+                                <button class="dashboard-btn" id="_close_all_connection_btn"><%:Collecting data...%></button>
+                                <button class="dashboard-btn" id="_reload_firewall_btn"><%:Collecting data...%></button>
+                                <button class="dashboard-btn" id="_flush_dns_cache_btn"><%:Collecting data...%></button>
+                                <button class="dashboard-btn" id="_one_key_update_btn"><%:Collecting data...%></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Statistics -->
+                    <div class="card-row stats-grid">
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Up%></span><span id="upload_" class="stat-value">0 KB/S</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Down%></span><span id="download_" class="stat-value">0 KB/S</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Up Total%></span><span id="uploadtotal_" class="stat-value">0 KB</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Down Total%></span><span id="downloadtotal_" class="stat-value">0 KB</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Connect%></span><span id="connect_t" class="stat-value">0</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Ram%></span><span id="mem_t" class="stat-value">0 KB</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:CPU%></span><span id="cpu_t" class="stat-value">0 %</span></div>
+                        <div class="sub-card stat-item"><span class="stat-label"><%:Load Avg%></span><span id="load_a" class="stat-value">0 %</span></div>
                     </div>
                 </div>
             </div>
+
+        <!-- Usage Help Model -->
+        <div class="config-upload-model-overlay" id="usage-help-overlay" style="display: none;">
+            <div class="config-upload-model" id="usage-help-model">
+                <div class="config-upload-header">
+                    <div class="config-upload-title"><%:Usage Help%></div>
+                    <button type="button" class="icon-btn" onclick="UsageHelpManager.hide()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                </div>
+                <div class="config-upload-content">
+                    <div class="form-group">
+                        <label class="highlight-label"><%:Copy the following text to any AI (ChatGPT, DeepSeek, etc.) to get usage help for OpenClash:%></label>
+                        <textarea id="usage-help-textarea" class="form-textarea" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="config-upload-footer">
+                    <div class="config-upload-status" id="usage-help-status"></div>
+                    <div class="config-upload-buttons">
+                        <button type="button" class="btn cancel-btn" onclick="UsageHelpManager.hide()"><%:Cancel%></button>
+                        <button type="button" class="btn upload-btn" onclick="UsageHelpManager.copyAndHide()"><%:Copy And Close%></button>
+                    </div>
+                </div>
             </div>
-        </td>
-    </tr>
+        </div>
+        </div>
 </table>
 </fieldset>
-
-<!-- Usage Help Button -->
-<div class="oc-usage-help-float" id="usage-help-float" title="<%:Usage Help%>" onclick="UsageHelpManager.show()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="7" width="18" height="13" rx="2"/>
-        <circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/>
-        <line x1="9" y1="17" x2="15" y2="17"/>
-        <path d="M12 3v4"/>
-        <circle cx="12" cy="3" r="1"/>
-    </svg>
-</div>
 
 <script src="/luci-static/resources/openclash/js/common.js?v=<%=plugin_version%>"></script>
 <script type="text/javascript">//<![CDATA[
