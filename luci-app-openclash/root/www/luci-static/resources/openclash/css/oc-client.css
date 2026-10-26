@@ -53,8 +53,8 @@ html[data-darkmode="true"] .oc .config-select:focus {
 .oc .main-cards-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: minmax(60px, auto) 1fr;
-    gap: var(--content-gap);
+    /* grid-template-rows: minmax(60px, auto) 1fr; */
+    column-gap: 10px;
     margin: 0 auto;
     align-items: start;
     max-width: 100%;
